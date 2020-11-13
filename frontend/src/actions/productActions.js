@@ -29,14 +29,15 @@ export const listProducts = () => async (dispatch) => {
 }
 
 export const listProductDetails = (id) => async (dispatch) => {
-  try {
+  try {     
+    // this dispatch may not be needed
     dispatch({ type: PRODUCT_DETAILS_REQUEST })
 
     const { data } = await axios.get(`/api/products/${id}`)
     // const { data } = await axios.get(`/api/products/5fa46e587f999056a8e6df66`)
     console.log(`data: ${data.name}`)
     dispatch({
-      type: PRODUCT_DETAILS_SUCCESS, 
+      type: PRODUCT_DETAILS_SUCCESS, // reducers>productReducers>productDetailsReducer
       payload: data
     })
   } catch (error) { 
