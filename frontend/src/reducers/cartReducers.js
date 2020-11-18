@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM } from '../constants/cartConstants'
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
 
 export const cartReducer = (state = { cartItems: [] }, action) => {
   switch(action.type) {
@@ -8,20 +8,28 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       const existItem = state.cartItems.find(x => x.product === item.product)
 
       if(existItem) {
+        console.log(`reducer state:${state.cartItems.name}`)
         return {
-          ...state,
+          // ...state,  // we may not need this
           cartItems: state.cartItems.map(x => 
-            x.product === existItem.product ? item : x
+            x.product === existItem.product ? item : x  // return item (selected by user) if it was selected previously, else return the rest of cartItems
           ),
         }
       } else {
         return {
-          ...state,
+          // ...state,
           cartItems: [...state.cartItems, item ], 
         }
 
+      }
+    case CART_REMOVE_ITEM:
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(x=>x.product !== action.payload)
       }
     default:
       return state 
   }
 }
+
+// used in store.js

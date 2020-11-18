@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id
@@ -24,7 +24,12 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty])
 
   const removeFromCartHandler = id => {
-    console.log('remove')
+    dispatch(removeFromCart(id))
+  }
+
+  const checkoutHandler = () => {
+    console.log('checkout')
+    history.push('/login/redirect=shipping')
   }
 
   return (
@@ -57,11 +62,11 @@ const CartScreen = ({ match, location, history }) => {
                   <Form.Control 
                   as='select' value={item.qty} onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
                   >{
-                              [...Array(item.countInStock).keys()].map(x => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              ))}
+                    [...Array(item.countInStock).keys()].map(x => (
+                      <option key={x + 1} value={x + 1}>
+                        {x + 1}
+                      </option>
+                    ))}
                   </Form.Control>                    
                   </Col>          
                   <Col md={2}>
@@ -76,8 +81,25 @@ const CartScreen = ({ match, location, history }) => {
           </ListGroup>
         )} 
       </Col>
-      <Col md={2}>
+      <Col md={4}>
+        <Card>
+          <ListGroup variant='flush'>
 
+
+            <ListGroup.Item>
+              <h2>
+                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
+                items
+              </h2>
+              ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
+                      Proceed To Checkout
+              </Button> 
+            </ListGroup.Item>
+          </ListGroup>
+        </Card>
       </Col>
       <Col md={2}>
 
@@ -87,3 +109,20 @@ const CartScreen = ({ match, location, history }) => {
 }
 
 export default CartScreen
+
+// items in cartItems have the same fields as payload below
+// actions > cartActions.js
+// export const addToCart = (id, qty) => async (dispatch, getState) => {
+//   const { data } = await axios.get(`/api/products/${id}`)
+
+//   dispatch ({
+//     type: CART_ADD_ITEM,
+//     payload: {
+//       product: data._id,
+//       name: data.name,
+//       image: data.image,
+//       price: data.price,
+//       countInStock: data.countInStock,
+//       qty, 
+//     },
+//   })
