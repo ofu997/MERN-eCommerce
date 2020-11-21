@@ -29,7 +29,7 @@ const CartScreen = ({ match, location, history }) => {
 
   const checkoutHandler = () => {
     console.log('checkout')
-    history.push('/login/redirect=shipping')
+    history.push('/login?redirect=shipping')
   }
 
   return (
@@ -53,7 +53,7 @@ const CartScreen = ({ match, location, history }) => {
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>                    
+                  <Link to={`/product/${item.product}`}>{item.name}</Link>  
                   </Col>
                   <Col md={2}>
                     ${item.price}

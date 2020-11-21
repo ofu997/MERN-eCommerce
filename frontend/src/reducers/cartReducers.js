@@ -1,6 +1,11 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
+import { 
+  CART_ADD_ITEM, 
+  CART_REMOVE_ITEM, 
+  CART_SAVE_SHIPPING_ADDRESS,
+  CART_SAVE_PAYMENT_METHOD,
+} from '../constants/cartConstants'
 
-export const cartReducer = (state = { cartItems: [] }, action) => {
+export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
   switch(action.type) {
     case CART_ADD_ITEM: 
       const item = action.payload
@@ -10,14 +15,14 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       if(existItem) {
         console.log(`reducer state:${state.cartItems.name}`)
         return {
-          // ...state,  // we may not need this
+          ...state,  // we do need this
           cartItems: state.cartItems.map(x => 
             x.product === existItem.product ? item : x  // return item (selected by user) if it was selected previously, else return the rest of cartItems
           ),
         }
       } else {
         return {
-          // ...state,
+          ...state,
           cartItems: [...state.cartItems, item ], 
         }
 
@@ -26,6 +31,16 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter(x=>x.product !== action.payload)
+      }
+    case CART_SAVE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: action.payload
+      }
+    case CART_SAVE_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: action.payload
       }
     default:
       return state 
