@@ -163,4 +163,4 @@ const PlaceOrderScreen = ({ history }) => {
 
 export default PlaceOrderScreen
 
-// place order button > placeOrderHandler > dispatch createOrder in Actions folder, which posts data to '/api/orders' via axios >   
+// place order button > placeOrderHandler > dispatch createOrder in [Actions] folder, which posts data to '/api/orders' via axios > matches app.use('/api/orders', orderRoutes) in server.js > orderRoutes in [Routes] folder sends to > addOrderItems function in [controllers] folder, which takes the req.body properties and saves an order using Order model
