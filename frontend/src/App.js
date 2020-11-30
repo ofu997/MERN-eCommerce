@@ -25,7 +25,6 @@ function App() {
       <main className='py-3'>
         <Container>
           <Route path='/order/:id' component={OrderScreen} /> 
-          <Route path='/orders' component={OrderListScreen} /> 
           <Route path='/shipping' component={ShippingScreen} /> 
           <Route path='/payment' component={PaymentScreen} /> 
           <Route path='/placeorder' component={PlaceOrderScreen} /> 
@@ -38,6 +37,7 @@ function App() {
           <Route path='/admin/user/:id/edit' component={UserEditScreen} />
           <Route path='/admin/productlist' component={ProductListScreen} />
           <Route path='/admin/product/:id/edit' component={ProductEditScreen} />
+          <Route path='/admin/orderlist' component={OrderListScreen} /> 
           <Route path='/' component={HomeScreen} exact /> 
         </Container>
       </main>
