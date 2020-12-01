@@ -6,15 +6,17 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listProducts } from '../actions/productActions'
 
-const HomeScreen = () => {
+const HomeScreen = ({ match, history }) => { // add history to force refresh on new search
+  const keyword = match.params.keyword
+
   const dispatch = useDispatch()
 
   const productList = useSelector(state => state.productList)
   const { loading, error, products } = productList
 
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword))
+  }, [dispatch, history]) // add history to force refresh on new search
 
   return (
     <>
