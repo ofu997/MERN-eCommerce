@@ -22,21 +22,24 @@ const ProductListScreen = ({ history, match }) => {
 
   const productDelete = useSelector(state => state.productDelete)
   const { 
-    loading:loadingDelete, 
-    error:errorDelete, 
-    success:successDelete 
+    loading: loadingDelete, 
+    error: errorDelete, 
+    success: successDelete 
   } = productDelete
 
   const productCreate = useSelector(state => state.productCreate)
   const { 
-    loading:loadingCreate, 
-    error:errorCreate, 
-    success:successCreate,
+    loading: loadingCreate, 
+    error: errorCreate, 
+    success: successCreate,
     product: createdProduct
   } = productCreate
 
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
+
+  const productUpdate = useSelector(state => state.productUpdate)
+  const { success: successUpdate } = productUpdate
 
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET })
@@ -96,6 +99,7 @@ const ProductListScreen = ({ history, match }) => {
             <tr>
               <th>ID</th>
               <th>NAME</th>
+              <th>INVENTORY COUNT</th>
               <th>PRICE</th>
               <th>CATEGORY</th>
               <th>BRAND</th>
@@ -106,6 +110,7 @@ const ProductListScreen = ({ history, match }) => {
               <tr key={product._id}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
+                <td>{product.countInStock}</td>
                 <td>${product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>

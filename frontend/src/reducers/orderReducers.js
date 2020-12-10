@@ -20,7 +20,9 @@ import {
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_RESET,
+
 } from '../constants/orderConstants'
+import { updateProduct } from '../actions/productActions';
 
 export const orderCreateReducer = (state = { }, action) => {
   switch(action.type) {
@@ -29,6 +31,7 @@ export const orderCreateReducer = (state = { }, action) => {
         loading: true
       }
     case ORDER_CREATE_SUCCESS:
+      updateProductQuantity(action.payload);
       return {
         loading: false,
         success: true,
@@ -42,6 +45,23 @@ export const orderCreateReducer = (state = { }, action) => {
     default: 
       return state
   }  
+}
+
+const updateProductQuantity = order => {
+  const { orderItems } = order; 
+  orderItems.map(item => {
+    const updatedCountInStock = item.countInStock - item.qty
+    updateProduct({
+      _id: item._id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      brand: item.brand,
+      cateogry: item.category,
+      description: item.description,
+      countInStock: updatedCountInStock    
+    })
+  })
 }
 
 export const orderDetailsReducer = (
